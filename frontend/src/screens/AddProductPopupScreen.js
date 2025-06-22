@@ -35,6 +35,7 @@ const AddProductPopupScreen = ({ show, onHide, submitHandler }) => {
             placeholder="Enter product name"
             value={product.name}
             onChange={handleChange}
+            required
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="image">
@@ -44,6 +45,7 @@ const AddProductPopupScreen = ({ show, onHide, submitHandler }) => {
             type="file"
             value={product.image}
             onChange={handleImageChange}
+            required
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="description">
@@ -54,6 +56,7 @@ const AddProductPopupScreen = ({ show, onHide, submitHandler }) => {
             value={product.description}
             onChange={handleChange}
             placeholder="Enter product description"
+            required
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="brand">
@@ -64,6 +67,7 @@ const AddProductPopupScreen = ({ show, onHide, submitHandler }) => {
             value={product.brand}
             onChange={handleChange}
             placeholder="Enter product brand"
+            required
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="price">
@@ -74,6 +78,9 @@ const AddProductPopupScreen = ({ show, onHide, submitHandler }) => {
             value={product.price}
             onChange={handleChange}
             placeholder="Enter product price"
+            required
+            min={1}
+            max={1000000}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="stockCount">
@@ -84,6 +91,9 @@ const AddProductPopupScreen = ({ show, onHide, submitHandler }) => {
             value={product.countInStock}
             onChange={handleChange}
             placeholder="Enter Stock Count"
+            required
+            min={10}
+            max={1000}
           ></Form.Control>
         </Form.Group>
 
