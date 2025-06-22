@@ -1,11 +1,16 @@
-import express from 'express'
-const router = express.Router()
-import { getProducts, getProductById } from '../controllers/productController.js'
+import express from 'express';
+import multer from 'multer';
+const router = express.Router();
+import {
+  getProducts,
+  getProductById,
+  uploadProduct,
+} from '../controllers/productController.js';
 
-router.route('/').get(getProducts)
-router.route('/:id').get(getProductById)
+const upload = multer({ dest: 'uploads/' });
 
-export default router
+router.route('/').get(getProducts);
+router.route('/upload').post(upload.single('image'), uploadProduct);
+router.route('/:id').get(getProductById);
 
-
-
+export default router;
