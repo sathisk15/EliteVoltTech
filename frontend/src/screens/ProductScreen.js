@@ -24,6 +24,9 @@ const ProductScreen = () => {
   const products = useSelector((state) => state.productDetails);
   const { product, loading, error } = products;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loadingUser, errorUser, userInfo: user } = userLogin;
+
   useEffect(() => {
     dispatch(productDetails(id));
   }, [dispatch, id]);
@@ -97,16 +100,27 @@ const ProductScreen = () => {
                   </Row>
                 </ListGroup.Item>
               )}
-              <ListGroup.Item className="mx-auto pb-2">
-                <Button
-                  className="btn-block"
-                  type="button"
-                  disabled={product.countInStock === 0}
-                  onClick={addToCartHandler}
-                >
-                  Add To Cart
-                </Button>
-              </ListGroup.Item>
+              {!user?.isAdmin && (
+                <ListGroup.Item className="mx-auto pb-2">
+                  <Button
+                    className="btn-block"
+                    type="button"
+                    disabled={product.countInStock === 0}
+                    onClick={addToCartHandler}
+                  >
+                    Add To Cart
+                  </Button>
+                </ListGroup.Item>
+              )}
+              {user?.isAdmin && (
+                <>
+                  <ListGroup.Item className="mx-auto pb-2">
+                    <Button className="btn-block" type="button">
+                      Remove
+                    </Button>
+                  </ListGroup.Item>
+                </>
+              )}
             </Card>
           </Col>
         </Row>

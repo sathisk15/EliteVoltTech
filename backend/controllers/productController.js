@@ -44,7 +44,7 @@ const uploadProduct = asyncHandler(async (req, res) => {
     const product = new Product({
       user,
       name,
-      image: result.display_name + '.jpg',
+      image: result.secure_url,
       description,
       brand,
       category: 'Electronics',

@@ -43,3 +43,26 @@ export const productDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+export const uploadProduct = (formData) => async (dispatch, getState) => {
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `${apiBaseURL}/api/products/upload`,
+      formData,
+      config
+    );
+    console.log('Upload Product Response:', data);
+    return data;
+  } catch (error) {
+    throw new Error(error?.response?.data.message || error.message);
+  }
+};
