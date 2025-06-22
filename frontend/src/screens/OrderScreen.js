@@ -7,6 +7,7 @@ import { getOrderDetails } from '../actions/orderActions';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getBaseURL } from '../utils/utils';
 const OrderScreen = () => {
   const dispatch = useDispatch();
   const [sdkReady, setSdkReady] = useState(false);
@@ -26,8 +27,14 @@ const OrderScreen = () => {
   }
 
   useEffect(() => {
+    dispatch(getOrderDetails(id));
+  }, []);
+
+  useEffect(() => {
     const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get('/api/config/paypal');
+      const { data: clientId } = await axios.get(
+        getBaseURL() + '/api/config/paypal'
+      );
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;

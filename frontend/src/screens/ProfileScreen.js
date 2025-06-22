@@ -71,6 +71,10 @@ const ProfileScreen = () => {
   const dispatchOrdersList = () =>
     dispatch(userInfo?.isAdmin ? listAllOrders() : listMyOrders());
 
+  useEffect(() => {
+    dispatchOrdersList();
+  }, []);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (!userInfo) {
