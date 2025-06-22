@@ -11,7 +11,7 @@ import {
 import Rating from '../components/Rating';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { productDetails } from '../actions/productActions';
+import { deleteProduct, productDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -33,6 +33,12 @@ const ProductScreen = () => {
 
   const addToCartHandler = () => {
     navigate(`/cart/${id}?qty=${qty}`);
+  };
+
+  const removeProductHandler = async (e) => {
+    e.preventDefault();
+    await dispatch(deleteProduct(id));
+    navigate('/');
   };
 
   return (
@@ -115,7 +121,11 @@ const ProductScreen = () => {
               {user?.isAdmin && (
                 <>
                   <ListGroup.Item className="mx-auto pb-2">
-                    <Button className="btn-block" type="button">
+                    <Button
+                      className="btn-block"
+                      type="button"
+                      onClick={removeProductHandler}
+                    >
                       Remove
                     </Button>
                   </ListGroup.Item>

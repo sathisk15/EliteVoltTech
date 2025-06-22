@@ -13,6 +13,8 @@ const HomeScreen = () => {
   const { loading, error, products } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo: user } = userLogin;
+  // const addProductStatus = useSelector((state) => state.addProduct);
+  // const { productStatus } = addProductStatus;
 
   const [addProductPopup, setAddProductPopup] = useState(false);
 
@@ -20,9 +22,11 @@ const HomeScreen = () => {
     dispatch(listProducts());
   }, [dispatch]);
 
-  const addProduct = (e, data) => {
+  const addProduct = async (e, data) => {
     e.preventDefault();
-    dispatch(uploadProduct({ ...data, user: user._id }));
+    await dispatch(uploadProduct({ ...data, user: user._id }));
+    setAddProductPopup(false);
+    await dispatch(listProducts());
   };
 
   return (

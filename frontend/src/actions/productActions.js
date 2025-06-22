@@ -5,6 +5,12 @@ import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
+  ADD_PRODUCT_DETAILS_FAIL,
+  ADD_PRODUCT_DETAILS_REQUEST,
+  ADD_PRODUCT_DETAILS_SUCCESS,
+  DELETE_PRODUCT_DETAILS_REQUEST,
+  DELETE_PRODUCT_DETAILS_SUCCESS,
+  DELETE_PRODUCT_DETAILS_FAIL,
 } from '../constants/productConstants';
 import { getBaseURL } from '../utils/utils';
 
@@ -46,6 +52,7 @@ export const productDetails = (id) => async (dispatch) => {
 
 export const uploadProduct = (formData) => async (dispatch, getState) => {
   try {
+    dispatch({ type: ADD_PRODUCT_DETAILS_REQUEST });
     const {
       userLogin: { userInfo },
     } = getState();
@@ -60,9 +67,41 @@ export const uploadProduct = (formData) => async (dispatch, getState) => {
       formData,
       config
     );
-    console.log('Upload Product Response:', data);
-    return data;
+    dispatch({
+      type: ADD_PRODUCT_DETAILS_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
-    throw new Error(error?.response?.data.message || error.message);
+    dispatch({
+      type: ADD_PRODUCT_DETAILS_FAIL,
+      payload: error?.response?.data?.message || error.message,
+    });
+  }
+};
+export const deleteProduct = (productId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: DELETE_PRODUCT_DETAILS_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.delete(
+      `${apiBaseURL}/api/products/delete/${productId}`,
+      config
+    );
+    dispatch({
+      type: DELETE_PRODUCT_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_PRODUCT_DETAILS_FAIL,
+      payload: error?.response?.data?.message || error.message,
+    });
   }
 };
